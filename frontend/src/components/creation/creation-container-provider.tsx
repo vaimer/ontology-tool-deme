@@ -1,10 +1,13 @@
 import { createContext, useContext, useMemo, useState } from 'react'
+import { CreationResult } from './creation-result'
+import { CreationForm } from './creation-form'
+import { ClipLoader } from 'react-spinners'
 
 interface CreationContextType {
     loading: boolean;
     setLoading: (value: boolean) => void;
     creationResult: string | undefined;
-    setCreationResult: (value: string) => void
+    setCreationResult: (value: string | undefined) => void
 }
 
 const CreationContext = createContext<CreationContextType | undefined>(undefined)
@@ -13,11 +16,13 @@ export const useCreationContext = (): CreationContextType => {
     const context = useContext(CreationContext)
 
     if (context === undefined) {
-        throw new Error('Creation context must be initialized')
+        console.log('Creation context must be initialized')
+        return {} as CreationContextType
     }
 
     return context
 }
+
 export const CreationContainerProvider = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [creationResult, setCreationResult] = useState<string | undefined>(undefined)
@@ -38,7 +43,9 @@ export const CreationContainerProvider = () => {
 
     return (
         <CreationContext.Provider value={memorizedContextValues}>
-            <h1>Some Creation form</h1>
+            <CreationForm />
+            {loading && <ClipLoader size={65} />}
+            {!loading && <CreationResult />}
         </CreationContext.Provider>
     )
 }

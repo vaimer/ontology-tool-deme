@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.app > div {
+    width: 50%;
+}
+
 hr.vertical {
     width: 0px;
     height: 100%;

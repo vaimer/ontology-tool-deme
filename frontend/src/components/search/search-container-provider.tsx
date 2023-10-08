@@ -17,7 +17,9 @@ export const useSearchContext = (): SearchContextType => {
     const context = useContext(SearchContext)
 
     if (context === undefined) {
-        throw new Error('Search context must be initialized')
+        console.log('Search context must be initialized')
+
+        return {} as SearchContextType;
     }
 
     return context
@@ -44,7 +46,7 @@ export const SearchContainerProvider = () => {
         <SearchContext.Provider value={memorizedContextValues}>
             <SearchInput />
             {(!loading && searchResult) && <SearchResult />}
-            {loading &&  <ClipLoader color={'#fff'} size={150} />}
+            {loading &&  <ClipLoader size={65} />}
         </SearchContext.Provider>
     )
 }

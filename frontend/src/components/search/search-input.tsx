@@ -29,7 +29,6 @@ export const SearchInput: React.FC = () => {
     return (
         <>
             <label>
-                Search your ontology:
                 <input type={'text'} placeholder={'Type ontology id to search'} className={'searchInput'}
                        onChange={(value) => {
                            setSearchingOntology(value.currentTarget.value)
