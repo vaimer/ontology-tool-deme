@@ -1,0 +1,7 @@
+.eslintrc.js
+custom.d.ts
+global.d.ts
+test-results
+test-coverage
+public
+node-modules
