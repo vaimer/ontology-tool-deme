@@ -3,9 +3,11 @@ package com.example.ontology.tool.demo.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
+@Profile("!test")
 public class RestConfig {
 
     @Bean

@@ -2,6 +2,7 @@ package com.example.ontology.tool.demo.service;
 
 import com.example.ontology.tool.demo.repository.OntologyRepository;
 import com.example.ontology.tool.demo.service.model.Ontology;
+import com.example.ontology.tool.demo.service.model.exception.NullOntologyIdException;
 import com.example.ontology.tool.demo.service.model.exception.OntologyDuplicationException;
 import com.example.ontology.tool.demo.service.model.exception.OntologyNotFoundException;
 import org.slf4j.Logger;
@@ -23,7 +24,11 @@ public class OntologyService {
         this.olsSearchService = olsSearchService;
     }
 
-    public Ontology retrieveOntology(String ontologyId) throws OntologyNotFoundException {
+    public Ontology retrieveOntology(String ontologyId) throws OntologyNotFoundException, NullOntologyIdException {
+        if(ontologyId == null || ontologyId.isEmpty()) {
+            throw new NullOntologyIdException();
+        }
+
         var localOntology = ontologyRepository.findById(ontologyId);
 
         if (localOntology.isPresent()) {
@@ -39,7 +44,11 @@ public class OntologyService {
         throw new OntologyNotFoundException();
     }
 
-    public Ontology saveOntology(Ontology ontology) throws OntologyDuplicationException {
+    public Ontology saveOntology(Ontology ontology) throws OntologyDuplicationException, NullOntologyIdException {
+        if(ontology.id() == null) {
+            throw new NullOntologyIdException();
+        }
+
         var ontologyEntity = ontologyRepository.findById(ontology.id());
 
         if (ontologyEntity.isPresent()) {

@@ -1,14 +1,15 @@
-version: '1.0'
+version: '3.7'
 services:
   mongo:
     ports:
       - '27017:27017'
-    container_name: ontology-mongo
+    container_name: mongodb_container
     restart: always
     logging:
       options:
         max-size: 500mb
     environment:
+      - MONGO_INITDB_DATABASE=ontology
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
-    image: mongo
+    image: mongo:7.0

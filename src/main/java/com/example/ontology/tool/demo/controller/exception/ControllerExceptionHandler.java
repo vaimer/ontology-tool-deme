@@ -1,5 +1,6 @@
 package com.example.ontology.tool.demo.controller.exception;
 
+import com.example.ontology.tool.demo.service.model.exception.NullOntologyIdException;
 import com.example.ontology.tool.demo.service.model.exception.OntologyDuplicationException;
 import com.example.ontology.tool.demo.service.model.exception.OntologyNotFoundException;
 import org.slf4j.Logger;
@@ -22,6 +23,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(OntologyNotFoundException.class)
     public ResponseEntity<Exception> handle(OntologyNotFoundException exception) {
         return handle(exception, exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NullOntologyIdException.class)
+    public ResponseEntity<Exception> handle(NullOntologyIdException exception) {
+        return handle(exception, exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private ResponseEntity<Exception> handle(Exception exception, String formattedErrorResponse, HttpStatus status) {

@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  jvm:
+    build:
+      context: ./
+      dockerfile: ./docker/jvm/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb_container
+  mongodb_container:
+    image: mongo:7.0
+    environment:
+      - MONGO_INITDB_DATABASE=ontology
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/docker/data/db
