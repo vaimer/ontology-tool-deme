@@ -5,7 +5,7 @@ import { Ontology } from '../types/ontology'
 import './search-input.css'
 
 export const SearchInput: React.FC = () => {
-    const { setLoading, setSearchResult } = useSearchContext()
+    const { setLoading, setSearchResult, setLoadingError } = useSearchContext()
 
     const [searchingOntology, setSearchingOntology] = useState<string | null>(null)
 
@@ -14,11 +14,17 @@ export const SearchInput: React.FC = () => {
             setLoading(true)
             fetch(`http://localhost:8080/ontology/${searchingOntology}`)
                 .then(async (response) => {
-                    setSearchResult((await response.json()) as Ontology)
+                    if (response.status == 200) {
+                        setSearchResult((await response.json()) as Ontology)
+                        setLoadingError(undefined)
+                    } else {
+                        setLoadingError(`Error while loading ontology data: ${(await response.json()).localizedMessage}`)
+                    }
                     setLoading(false)
                 })
                 .catch((error) => {
-                    console.log(`Error while loading ontology data ${error}`)
+                    console.log(`Error while loading ontology data: ${error}`)
+                    setLoadingError(error)
                     setLoading(false)
                 })
         } else {

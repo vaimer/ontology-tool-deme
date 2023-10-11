@@ -22,7 +22,7 @@ export const CreationForm: React.FC = () => {
     }
 
     const saveOntology = () => {
-        if (isEmpty(id) || isEmpty(title) || isEmpty(description) || isEmpty(definitionProperties) || isEmpty(synonymProperties)) {
+        if (isEmpty(id)) {
             setCreationResult('Please fill all form fields')
             return
         }
@@ -35,14 +35,18 @@ export const CreationForm: React.FC = () => {
             body: JSON.stringify({ id, title, description, definitionProperties, synonymProperties }),
         })
             .then(async (response) => {
-                setCreationResult(`Ontology was successfully created ${Object.entries(await response.json()).map(([key, value]) => {
-                    return (` ${key}: ${value}`);
-                }).toString()}`)
-                resetFormState()
+                if(response.status === 200) {
+                    setCreationResult(`Ontology was successfully created ${Object.entries(await response.json()).map(([key, value]) => {
+                        return (` ${key}: ${value}`);
+                    }).toString()}`)
+                    resetFormState()
+                } else {
+                    setCreationResult(`Error while creation new ontology: ${(await response.json()).localizedMessage}`)
+                }
                 setLoading(false)
             })
             .catch((error) => {
-                setCreationResult(`Error while creation new ontology ${error}`)
+                setCreationResult(`Error while creation new ontology: ${error}`)
                 setLoading(false)
             })
     }
