@@ -18,7 +18,7 @@ class OLSSearchServiceTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
 
-    private OLSSearchService olsSearchService = new OLSSearchService(restTemplate, objectMapper);
+    private final OLSSearchService olsSearchService = new OLSSearchService(restTemplate, objectMapper);
     @Test
     void retrieveOntology_shouldSuccessfullyLoadOntology_returnOntology() {
         when(restTemplate.getForObject(anyString(), any(), anyString())).thenReturn(olsOntologyMock);
@@ -31,7 +31,7 @@ class OLSSearchServiceTest {
     }
 
     @Test
-    void retrieveOntology_shouldFailOnParsingWrongJsonObject_returnNull() {
+    void retrieveOntology_shouldFailOnParsingEmptyJsonObject_returnNull() {
         when(restTemplate.getForObject(anyString(), any(), anyString())).thenReturn(ResponseEntity.notFound());
 
         var result = olsSearchService.retrieveOntology("efo");
