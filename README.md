@@ -55,17 +55,17 @@ The current backend is also used for static file distribution. To achieve it, I 
 It brings some complication in the build process, but simplifies the docker configuration and avoids using a separate backend for static file distribution(but it also can be `nginx` without special logic).
 It was done only to speed up test task implementation.
 
-Consequences of such an approach:
+**Consequences of such an approach**:
 * Every change of the frontend triggers the redeployment of back end. They bound with each other over.
 * Fail intolerance, if a bug exists on frontend or backend, it requires rebuilding/recreate both parts, and produce failing for whole application, not just a part of it.
 * Additional effort to managing frontend and backend teams/people. They can not work independently, need to sync PR, merge conflicts, releases.
 
-How to solve it, some steps:
+**How to solve it, some steps**:
 1. Use separate project for frontend, and choose one of the approaches to file distribution (nginx or NodeJs)
 2. Pack application to separate Docker image, and run frontend project container with backend container separately
 3. Set up docker network for containers communication.
 
-Benefits, after solving the issue: 
+**Benefits, after solving the issue**: 
 * Teams can develop projects separately
 * Separate releases
 * Fail tolerance, if the problem is in some of the services, it doesn't affect other parts of the systems
